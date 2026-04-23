@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import html2canvas from 'html2canvas'
 import { CANTON_NAMES } from '../engine/taxRates.js'
+import { getMaxContribution } from '../engine/calculator.js'
 import { formatCHF, formatPercent } from '../utils/formatting.js'
 import ProjectionChart from './ProjectionChart.jsx'
 import ShareCard from './ShareCard.jsx'
@@ -12,6 +13,7 @@ export default function ResultsPanel({ results, chartData, inputs }) {
   const cardRef = useRef(null)
 
   const cantonName = CANTON_NAMES[inputs.canton] ?? inputs.canton
+  const maxLifetimeTaxSaving = getMaxContribution(inputs) * results.marginalRate * results.yearsUntilRetirement
 
   async function handleShare() {
     if (!cardRef.current) return
@@ -67,7 +69,7 @@ export default function ResultsPanel({ results, chartData, inputs }) {
             <div className="text-xs uppercase tracking-widest mb-2 w-full text-center" style={{ color: 'var(--cream-dim)' }}>
               {label}
             </div>
-            <div className="font-serif leading-none mb-1.5 w-full text-center" style={{ fontSize: 'clamp(14px, 3.5vw, 34px)', color }}>
+            <div className="font-serif leading-none mb-1.5 w-full text-center overflow-hidden" style={{ fontSize: 'clamp(14px, 3.5vw, 26px)', color }}>
               {value}
             </div>
             <div className="text-xs leading-snug w-full text-center" style={{ color: 'var(--cream-dim)' }}>
@@ -112,6 +114,13 @@ export default function ResultsPanel({ results, chartData, inputs }) {
             {formatCHF(results.investmentAdvantage)}
           </span>{' '}
           more at retirement.
+        </p>
+        <p className="mt-2 text-sm" style={{ color: 'var(--cream-dim)' }}>
+          Contributing the maximum each year could save you{' '}
+          <span className="font-semibold font-serif" style={{ color: 'var(--gold)' }}>
+            {formatCHF(maxLifetimeTaxSaving)}
+          </span>{' '}
+          in total taxes before retirement — based on current limits and your marginal rate.
         </p>
 
         {/* Share button — inside chart card, full width */}
