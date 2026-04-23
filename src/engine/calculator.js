@@ -1,6 +1,14 @@
 import { getMarginalRate } from './taxRates.js'
 
 export const MAX_CONTRIBUTION_2025 = 7258
+export const MAX_CONTRIBUTION_SELF_EMPLOYED_2025 = 36288
+
+export function getMaxContribution({ employmentStatus, hasPillarTwo, income }) {
+  if (employmentStatus === 'self-employed' && !hasPillarTwo) {
+    return Math.min(Math.floor(income * 0.20), MAX_CONTRIBUTION_SELF_EMPLOYED_2025)
+  }
+  return MAX_CONTRIBUTION_2025
+}
 
 export const INVESTMENT_STRATEGIES = {
   cash:         { label: 'Cash',         return: 0.005, description: 'Savings account rate — no market exposure' },

@@ -1,9 +1,8 @@
-import { formatCHF, formatPercent } from '../utils/formatting.js'
-import { MAX_CONTRIBUTION_2025 } from '../engine/calculator.js'
+import { formatCHF } from '../utils/formatting.js'
 
-export default function ContributionSlider({ contribution, onChange }) {
-  const pct = (contribution / MAX_CONTRIBUTION_2025) * 100
-  const isMax = contribution >= MAX_CONTRIBUTION_2025
+export default function ContributionSlider({ contribution, onChange, maxContribution, isSelfEmployed }) {
+  const pct = (contribution / maxContribution) * 100
+  const isMax = contribution >= maxContribution
 
   return (
     <div>
@@ -17,7 +16,7 @@ export default function ContributionSlider({ contribution, onChange }) {
           </span>
           {isMax && (
             <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: 'rgba(201,168,76,.15)', color: 'var(--gold)' }}>
-              Max 2025
+              {isSelfEmployed ? 'Max 2025 (self-empl.)' : 'Max 2025'}
             </span>
           )}
         </div>
@@ -27,7 +26,7 @@ export default function ContributionSlider({ contribution, onChange }) {
         <input
           type="range"
           min={0}
-          max={MAX_CONTRIBUTION_2025}
+          max={maxContribution}
           step={100}
           value={contribution}
           onChange={e => onChange(Number(e.target.value))}

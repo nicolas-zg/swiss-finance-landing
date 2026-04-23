@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { CANTON_NAMES } from '../engine/taxRates.js'
-import { MAX_CONTRIBUTION_2025 } from '../engine/calculator.js'
+import { getMaxContribution } from '../engine/calculator.js'
 import { formatCHF } from '../utils/formatting.js'
 import ContributionSlider from './ContributionSlider.jsx'
 import StrategyPicker from './StrategyPicker.jsx'
@@ -13,6 +13,9 @@ export default function InputPanel({ inputs, onChange }) {
   const [balanceStr, setBalanceStr] = useState(String(inputs.currentBalance || ''))
   const [showBalance, setShowBalance] = useState(inputs.showCurrentBalance)
 
+  const maxContribution = getMaxContribution(inputs)
+  const isSelfEmployed = inputs.employmentStatus === 'self-employed'
+
   function set(key, val) { onChange({ ...inputs, [key]: val }) }
 
   function handleIncomeBlur(e) {
@@ -23,7 +26,7 @@ export default function InputPanel({ inputs, onChange }) {
   }
 
   function handleAgeChange(e) {
-    const digits = e.target.value.replace(/[^\d]/g, '').slice(0, 2) // integers only, max 2 digits
+    const digits = e.target.value.replace(/[^\d]/g, '').slice(0, 2)
     setAgeStr(digits)
     const n = parseInt(digits, 10)
     if (!isNaN(n) && n >= 18 && n <= 64) set('age', n)
@@ -57,6 +60,20 @@ export default function InputPanel({ inputs, onChange }) {
     onChange({ ...inputs, showCurrentBalance: next, currentBalance: next ? inputs.currentBalance : 0 })
   }
 
+  function handleEmploymentChange(status) {
+    const newInputs = { ...inputs, employmentStatus: status }
+    const newMax = getMaxContribution(newInputs)
+    if (inputs.contribution > newMax) newInputs.contribution = newMax
+    onChange(newInputs)
+  }
+
+  function handlePillarTwoChange(hasPillarTwo) {
+    const newInputs = { ...inputs, hasPillarTwo }
+    const newMax = getMaxContribution(newInputs)
+    if (inputs.contribution > newMax) newInputs.contribution = newMax
+    onChange(newInputs)
+  }
+
   return (
     <div className="flex flex-col gap-6 p-6 rounded-2xl" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)' }}>
       {/* Canton */}
@@ -74,6 +91,71 @@ export default function InputPanel({ inputs, onChange }) {
             <option key={code} value={code}>{name} ({code})</option>
           ))}
         </select>
+      </div>
+
+      {/* Employment status */}
+      <div>
+        <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
+          Employment status
+        </label>
+        <div className="flex gap-2">
+          {[
+            { value: 'employed', label: 'Employed' },
+            { value: 'self-employed', label: 'Self-employed' },
+          ].map(({ value, label }) => {
+            const active = inputs.employmentStatus === value
+            return (
+              <button
+                key={value}
+                onClick={() => handleEmploymentChange(value)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-150"
+                style={{
+                  background: active ? 'var(--gold)' : 'rgba(255,255,255,.04)',
+                  border: `1px solid ${active ? 'var(--gold)' : 'var(--navy-light)'}`,
+                  color: active ? 'var(--navy)' : 'var(--cream-dim)',
+                }}
+              >
+                {label}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Pillar 2 sub-toggle — only shown when self-employed */}
+        {isSelfEmployed && (
+          <div className="mt-3">
+            <p className="text-xs mb-2" style={{ color: 'var(--cream-dim)' }}>
+              Do you contribute to a Pillar 2 pension fund?
+            </p>
+            <div className="flex gap-2">
+              {[
+                { value: true, label: 'Yes' },
+                { value: false, label: 'No' },
+              ].map(({ value, label }) => {
+                const active = inputs.hasPillarTwo === value
+                return (
+                  <button
+                    key={label}
+                    onClick={() => handlePillarTwoChange(value)}
+                    className="flex-1 py-2 rounded-xl text-sm font-medium transition-all duration-150"
+                    style={{
+                      background: active ? 'rgba(201,168,76,.15)' : 'rgba(255,255,255,.04)',
+                      border: `1px solid ${active ? 'rgba(201,168,76,.4)' : 'var(--navy-light)'}`,
+                      color: active ? 'var(--gold)' : 'var(--cream-dim)',
+                    }}
+                  >
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
+            {!inputs.hasPillarTwo && (
+              <p className="mt-1.5 text-xs" style={{ color: 'var(--cream-dim)' }}>
+                Based on 20% of your net income — max CHF 36,288 for 2025.
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Marital status */}
@@ -156,6 +238,8 @@ export default function InputPanel({ inputs, onChange }) {
       <ContributionSlider
         contribution={inputs.contribution}
         onChange={val => set('contribution', val)}
+        maxContribution={maxContribution}
+        isSelfEmployed={isSelfEmployed}
       />
 
       {/* Strategy */}

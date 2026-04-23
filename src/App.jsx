@@ -12,6 +12,8 @@ const DEFAULT_INPUTS = {
   strategy: 'growth',
   maritalStatus: 'single',
   showCurrentBalance: false,
+  employmentStatus: 'employed',
+  hasPillarTwo: false,
 }
 
 export default function App() {
