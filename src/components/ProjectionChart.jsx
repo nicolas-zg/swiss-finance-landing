@@ -30,6 +30,7 @@ export default function ProjectionChart({ data }) {
   const yMax = Math.ceil(maxVal * 1.1 / 50000) * 50000
 
   return (
+    <div style={{ touchAction: 'pan-y' }}>
     <ResponsiveContainer width="100%" height={280}>
       <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
         <defs>
@@ -87,5 +88,6 @@ export default function ProjectionChart({ data }) {
         />
       </AreaChart>
     </ResponsiveContainer>
+    </div>
   )
 }

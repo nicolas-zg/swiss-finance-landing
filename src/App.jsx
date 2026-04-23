@@ -24,7 +24,7 @@ export default function App() {
 
       {/* Nav */}
       <nav className="sticky top-0 z-50 px-6 py-4 flex items-center justify-between"
-        style={{ background: 'rgba(15,28,46,.9)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--navy-light)' }}>
+        style={{ background: 'rgba(10,22,40,.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--navy-light)' }}>
         <span className="font-bold text-base tracking-tight" style={{ color: 'var(--cream)' }}>
           Swiss<span style={{ color: 'var(--gold)' }}>Finance</span>
         </span>

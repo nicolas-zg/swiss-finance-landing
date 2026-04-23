@@ -4,13 +4,13 @@
 @tailwind utilities;
 
 :root {
-  --navy:       #0F1C2E;
-  --navy-mid:   #1A2E45;
-  --navy-light: #243D56;
-  --cream:      #F5F0E8;
-  --cream-dim:  #A8A090;
-  --gold:       #C9A84C;
-  --gold-dim:   #8A6F30;
+  --navy:       #0A1628;   /* darker page bg — more contrast against cards */
+  --navy-mid:   #1C3352;   /* card bg — clearly distinct from page */
+  --navy-light: #2E4E72;   /* borders — more visible */
+  --cream:      #F2EDE3;   /* primary text */
+  --cream-dim:  #B4A99A;   /* secondary text — brighter than before */
+  --gold:       #D4AC4A;   /* slightly more vibrant accent */
+  --gold-dim:   #9A7A30;
   --success:    #4CAF82;
 }
 

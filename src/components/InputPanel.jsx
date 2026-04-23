@@ -161,13 +161,15 @@ export default function InputPanel({ inputs, onChange, results }) {
                 CHF
               </span>
               <input
-                type="number"
-                min={0}
-                value={inputs.currentBalance}
-                onChange={e => set('currentBalance', Math.max(0, Number(e.target.value)))}
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={balanceStr}
+                onChange={handleBalanceChange}
+                onBlur={handleBalanceBlur}
                 className="flex-1 px-4 py-3 text-sm outline-none"
                 style={{ background: 'var(--navy)', color: 'var(--cream)' }}
-                placeholder="0"
+                placeholder="e.g. 25000"
               />
             </div>
           </div>

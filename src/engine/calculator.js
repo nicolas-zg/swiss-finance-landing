@@ -43,7 +43,8 @@ export function calculateResults(inputs) {
 }
 
 export function buildChartData(inputs) {
-  const { age, income, contribution, currentBalance = 0, canton } = inputs
+  const { age, income, contribution, currentBalance = 0, canton, strategy } = inputs
+  const strategyRate = INVESTMENT_STRATEGIES[strategy]?.return ?? 0.065
   const marginalRate = getMarginalRate(canton, income)
   const netAfterTax = contribution * (1 - marginalRate)
 
@@ -57,7 +58,7 @@ export function buildChartData(inputs) {
       age: age + t,
       noThreeA:      Math.round(fv(0.005, netAfterTax, t)),
       cashThreeA:    Math.round(fv(0.005, contribution, t)),
-      investedThreeA:Math.round(fv(0.065, contribution, t)),
+      investedThreeA:Math.round(fv(strategyRate, contribution, t)),
     }
   })
 }
