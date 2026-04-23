@@ -9,6 +9,8 @@ const SORTED_CANTONS = Object.entries(CANTON_NAMES).sort((a, b) => a[1].localeCo
 
 export default function InputPanel({ inputs, onChange, results }) {
   const [incomeDisplay, setIncomeDisplay] = useState(inputs.income.toLocaleString('de-CH'))
+  const [ageStr, setAgeStr] = useState(String(inputs.age))
+  const [balanceStr, setBalanceStr] = useState(String(inputs.currentBalance || ''))
   const [showBalance, setShowBalance] = useState(inputs.showCurrentBalance)
 
   function set(key, val) { onChange({ ...inputs, [key]: val }) }
@@ -20,9 +22,38 @@ export default function InputPanel({ inputs, onChange, results }) {
     setIncomeDisplay(val.toLocaleString('de-CH'))
   }
 
+  function handleAgeChange(e) {
+    const digits = e.target.value.replace(/[^\d]/g, '').slice(0, 2) // integers only, max 2 digits
+    setAgeStr(digits)
+    const n = parseInt(digits, 10)
+    if (!isNaN(n) && n >= 18 && n <= 64) set('age', n)
+  }
+
+  function handleAgeBlur() {
+    const n = parseInt(ageStr, 10)
+    const clamped = isNaN(n) ? 32 : Math.min(64, Math.max(18, n))
+    set('age', clamped)
+    setAgeStr(String(clamped))
+  }
+
+  function handleBalanceChange(e) {
+    const str = e.target.value
+    setBalanceStr(str)
+    const n = parseInt(str.replace(/[^\d]/g, ''), 10)
+    if (!isNaN(n) && n >= 0) set('currentBalance', n)
+  }
+
+  function handleBalanceBlur() {
+    const n = parseInt(balanceStr.replace(/[^\d]/g, ''), 10)
+    const val = isNaN(n) ? 0 : Math.max(0, n)
+    set('currentBalance', val)
+    setBalanceStr(val === 0 ? '' : String(val))
+  }
+
   function handleBalanceToggle() {
     const next = !showBalance
     setShowBalance(next)
+    if (!next) setBalanceStr('')
     onChange({ ...inputs, showCurrentBalance: next, currentBalance: next ? inputs.currentBalance : 0 })
   }
 
@@ -73,10 +104,13 @@ export default function InputPanel({ inputs, onChange, results }) {
           Your age
         </label>
         <input
-          type="number"
-          min={18} max={64}
-          value={inputs.age}
-          onChange={e => set('age', Math.min(64, Math.max(18, Number(e.target.value))))}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          placeholder="18–64"
+          value={ageStr}
+          onChange={handleAgeChange}
+          onBlur={handleAgeBlur}
           className="w-full px-4 py-3 rounded-xl text-sm font-medium outline-none"
           style={{ background: 'var(--navy)', border: '1px solid var(--navy-light)', color: 'var(--cream)' }}
         />
