@@ -46,19 +46,11 @@ export default function ContributionSlider({ contribution, onChange, annualTaxSa
           </div>
         </div>
         <div className="rounded-lg p-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid var(--navy-light)' }}>
-          <div className="flex items-center gap-1 mb-1">
-            <span className="text-xs" style={{ color: 'var(--cream-dim)' }}>Your effective cost</span>
-            <div className="relative group">
-              <span className="text-xs cursor-help" style={{ color: 'var(--cream-dim)' }}>ⓘ</span>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 text-xs rounded-lg p-2.5 z-10 hidden group-hover:block"
-                style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', color: 'var(--cream-dim)' }}>
-                The government subsidizes {formatPercent(marginalRate)} of your contribution via tax savings. This is your true out-of-pocket cost.
-              </div>
-            </div>
-          </div>
+          <div className="text-xs mb-1" style={{ color: 'var(--cream-dim)' }}>What you pay</div>
           <div className="text-lg font-semibold" style={{ color: 'var(--cream)' }}>
             {formatCHF(effectiveCost)}
           </div>
+          <div className="text-xs mt-0.5" style={{ color: 'var(--cream-dim)', opacity: 0.7 }}>after tax benefit</div>
         </div>
       </div>
     </div>

@@ -42,12 +42,14 @@ export const CANTON_NAMES = {
   ZG: 'Zug',              ZH: 'Zürich',
 }
 
-export function getMarginalRate(canton, income) {
+export function getMarginalRate(canton, income, maritalStatus = 'single') {
   const brackets = CANTON_RATES[canton] ?? CANTON_RATES['ZH']
   const points = Object.keys(brackets).map(Number).sort((a, b) => a - b)
   const lower = [...points].reverse().find(p => p <= income) ?? points[0]
   const upper = points.find(p => p > income) ?? points[points.length - 1]
-  if (lower === upper) return brackets[lower]
-  const ratio = (income - lower) / (upper - lower)
-  return brackets[lower] + ratio * (brackets[upper] - brackets[lower])
+  const baseRate = lower === upper
+    ? brackets[lower]
+    : brackets[lower] + ((income - lower) / (upper - lower)) * (brackets[upper] - brackets[lower])
+  // Married (single primary income): ~18% lower combined rate due to federal joint brackets + cantonal splitting
+  return maritalStatus === 'married' ? baseRate * 0.82 : baseRate
 }

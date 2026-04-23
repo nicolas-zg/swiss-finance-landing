@@ -55,13 +55,25 @@ export default function ResultsPanel({ results, chartData, inputs }) {
   return (
     <div className="flex flex-col gap-5">
 
-      {/* Headline stats */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="rounded-2xl p-4 sm:p-5" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
-          <div className="text-xs uppercase tracking-widest mb-3" style={{ color: 'var(--cream-dim)' }}>
-            Tax saving this year
+      {/* Headline stats — 3-card breakdown */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="rounded-2xl p-3 sm:p-4" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
+          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
+            What you pay
           </div>
-          <div className="font-serif leading-none mb-2" style={{ fontSize: 'clamp(22px, 5vw, 46px)', color: 'var(--gold)' }}>
+          <div className="font-serif leading-none mb-1.5" style={{ fontSize: 'clamp(18px, 4vw, 36px)', color: 'var(--cream)' }}>
+            {formatCHF(results.effectiveCost)}
+          </div>
+          <div className="text-xs leading-snug" style={{ color: 'var(--cream-dim)' }}>
+            leaves your account
+          </div>
+        </div>
+
+        <div className="rounded-2xl p-3 sm:p-4" style={{ background: 'var(--navy-mid)', border: '1px solid rgba(212,172,74,.3)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
+          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
+            Tax saving
+          </div>
+          <div className="font-serif leading-none mb-1.5" style={{ fontSize: 'clamp(18px, 4vw, 36px)', color: 'var(--gold)' }}>
             {formatCHF(results.annualTaxSaving)}
           </div>
           <div className="text-xs leading-snug" style={{ color: 'var(--cream-dim)' }}>
@@ -69,26 +81,26 @@ export default function ResultsPanel({ results, chartData, inputs }) {
           </div>
         </div>
 
-        <div className="rounded-2xl p-4 sm:p-5" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
-          <div className="flex items-center gap-1.5 mb-3">
-            <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--cream-dim)' }}>
-              Effective cost
-            </span>
-            <div className="relative group">
-              <span className="text-xs cursor-help" style={{ color: 'var(--cream-dim)' }}>ⓘ</span>
-              <div className="absolute bottom-full left-0 mb-2 w-56 text-xs rounded-xl p-3 z-10 hidden group-hover:block"
-                style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', color: 'var(--cream-dim)', boxShadow: '0 4px 16px rgba(0,0,0,.5)' }}>
-                The government subsidises {formatPercent(results.marginalRate)} of your contribution via tax savings — this is your true out-of-pocket cost.
-              </div>
-            </div>
+        <div className="rounded-2xl p-3 sm:p-4" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
+          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
+            In your 3a
           </div>
-          <div className="font-serif leading-none mb-2" style={{ fontSize: 'clamp(22px, 5vw, 46px)', color: 'var(--cream)' }}>
-            {formatCHF(results.effectiveCost)}
+          <div className="font-serif leading-none mb-1.5" style={{ fontSize: 'clamp(18px, 4vw, 36px)', color: 'var(--cream)' }}>
+            {formatCHF(inputs.contribution)}
           </div>
           <div className="text-xs leading-snug" style={{ color: 'var(--cream-dim)' }}>
-            to contribute {formatCHF(inputs.contribution)}
+            grows in your account
           </div>
         </div>
+      </div>
+
+      {/* Equation line */}
+      <div className="flex items-center justify-center gap-2 text-xs" style={{ color: 'var(--cream-dim)' }}>
+        <span>{formatCHF(results.effectiveCost)}</span>
+        <span>+</span>
+        <span style={{ color: 'var(--gold)' }}>{formatCHF(results.annualTaxSaving)} tax saving</span>
+        <span>=</span>
+        <span style={{ color: 'var(--cream)' }}>{formatCHF(inputs.contribution)} in your 3a</span>
       </div>
 
       {/* Projection chart */}

@@ -76,6 +76,37 @@ export default function InputPanel({ inputs, onChange, results }) {
         </select>
       </div>
 
+      {/* Marital status */}
+      <div>
+        <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
+          Civil status
+        </label>
+        <div className="flex gap-2">
+          {['single', 'married'].map(status => {
+            const active = inputs.maritalStatus === status
+            return (
+              <button
+                key={status}
+                onClick={() => set('maritalStatus', status)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-medium capitalize transition-all duration-150"
+                style={{
+                  background: active ? 'var(--gold)' : 'rgba(255,255,255,.04)',
+                  border: `1px solid ${active ? 'var(--gold)' : 'var(--navy-light)'}`,
+                  color: active ? 'var(--navy)' : 'var(--cream-dim)',
+                }}
+              >
+                {status === 'single' ? 'Single' : 'Married'}
+              </button>
+            )
+          })}
+        </div>
+        {inputs.maritalStatus === 'married' && (
+          <p className="mt-1.5 text-xs" style={{ color: 'var(--cream-dim)' }}>
+            Assumes a single primary income — dual-income couples may have a higher rate.
+          </p>
+        )}
+      </div>
+
       {/* Income */}
       <div>
         <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>

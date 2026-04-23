@@ -10,6 +10,7 @@ const DEFAULT_INPUTS = {
   contribution: 7258,
   currentBalance: 0,
   strategy: 'growth',
+  maritalStatus: 'single',
   showCurrentBalance: false,
 }
 
@@ -66,8 +67,9 @@ export default function App() {
       {/* Footer */}
       <footer className="px-6 py-8 text-center" style={{ borderTop: '1px solid var(--navy-light)' }}>
         <p className="text-xs max-w-xl mx-auto" style={{ color: 'var(--cream-dim)', lineHeight: 1.7 }}>
-          This calculator provides estimates for planning purposes only. Tax rates are approximations
-          and vary by commune. Results do not constitute financial advice.
+          This calculator provides estimates for planning purposes only. Tax rates are approximations and vary by commune.
+          Married rates assume a single primary income — dual-income households may have higher effective rates.
+          Results do not constitute financial advice.
         </p>
       </footer>
     </div>

@@ -11,10 +11,10 @@ export const INVESTMENT_STRATEGIES = {
 }
 
 export function calculateResults(inputs) {
-  const { canton, age, income, contribution, currentBalance = 0, strategy } = inputs
+  const { canton, age, income, contribution, currentBalance = 0, strategy, maritalStatus = 'single' } = inputs
   const years = 65 - age
   const rate = INVESTMENT_STRATEGIES[strategy]?.return ?? 0.06
-  const marginalRate = getMarginalRate(canton, income)
+  const marginalRate = getMarginalRate(canton, income, maritalStatus)
 
   const annualTaxSaving = contribution * marginalRate
   const effectiveCost = contribution - annualTaxSaving
@@ -43,9 +43,9 @@ export function calculateResults(inputs) {
 }
 
 export function buildChartData(inputs) {
-  const { age, income, contribution, currentBalance = 0, canton, strategy } = inputs
+  const { age, income, contribution, currentBalance = 0, canton, strategy, maritalStatus = 'single' } = inputs
   const strategyRate = INVESTMENT_STRATEGIES[strategy]?.return ?? 0.065
-  const marginalRate = getMarginalRate(canton, income)
+  const marginalRate = getMarginalRate(canton, income, maritalStatus)
   const netAfterTax = contribution * (1 - marginalRate)
 
   return Array.from({ length: 65 - age }, (_, i) => {
