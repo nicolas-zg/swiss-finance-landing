@@ -57,41 +57,24 @@ export default function ResultsPanel({ results, chartData, inputs }) {
 
       {/* Headline stats — 3-card breakdown */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl p-3 sm:p-4" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
-          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
-            What you pay
+        {[
+          { label: 'What you pay', value: formatCHF(results.effectiveCost), sub: 'leaves your account', color: 'var(--cream)', border: 'var(--navy-light)' },
+          { label: 'Tax saving',   value: formatCHF(results.annualTaxSaving), sub: `${formatPercent(results.marginalRate)} · ${cantonName}`, color: 'var(--gold)', border: 'rgba(212,172,74,.3)' },
+          { label: 'In your 3a',  value: formatCHF(inputs.contribution), sub: 'grows in your account', color: 'var(--cream)', border: 'var(--navy-light)' },
+        ].map(({ label, value, sub, color, border }) => (
+          <div key={label} className="rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center"
+            style={{ background: 'var(--navy-mid)', border: `1px solid ${border}`, boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
+            <div className="text-xs uppercase tracking-widest mb-2 w-full text-center" style={{ color: 'var(--cream-dim)' }}>
+              {label}
+            </div>
+            <div className="font-serif leading-none mb-1.5 w-full text-center" style={{ fontSize: 'clamp(16px, 3.5vw, 34px)', color }}>
+              {value}
+            </div>
+            <div className="text-xs leading-snug w-full text-center" style={{ color: 'var(--cream-dim)' }}>
+              {sub}
+            </div>
           </div>
-          <div className="font-serif leading-none mb-1.5" style={{ fontSize: 'clamp(18px, 4vw, 36px)', color: 'var(--cream)' }}>
-            {formatCHF(results.effectiveCost)}
-          </div>
-          <div className="text-xs leading-snug" style={{ color: 'var(--cream-dim)' }}>
-            leaves your account
-          </div>
-        </div>
-
-        <div className="rounded-2xl p-3 sm:p-4" style={{ background: 'var(--navy-mid)', border: '1px solid rgba(212,172,74,.3)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
-          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
-            Tax saving
-          </div>
-          <div className="font-serif leading-none mb-1.5" style={{ fontSize: 'clamp(18px, 4vw, 36px)', color: 'var(--gold)' }}>
-            {formatCHF(results.annualTaxSaving)}
-          </div>
-          <div className="text-xs leading-snug" style={{ color: 'var(--cream-dim)' }}>
-            at {formatPercent(results.marginalRate)} in {cantonName}
-          </div>
-        </div>
-
-        <div className="rounded-2xl p-3 sm:p-4" style={{ background: 'var(--navy-mid)', border: '1px solid var(--navy-light)', boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
-          <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
-            In your 3a
-          </div>
-          <div className="font-serif leading-none mb-1.5" style={{ fontSize: 'clamp(18px, 4vw, 36px)', color: 'var(--cream)' }}>
-            {formatCHF(inputs.contribution)}
-          </div>
-          <div className="text-xs leading-snug" style={{ color: 'var(--cream-dim)' }}>
-            grows in your account
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Equation line */}

@@ -7,7 +7,7 @@ import StrategyPicker from './StrategyPicker.jsx'
 
 const SORTED_CANTONS = Object.entries(CANTON_NAMES).sort((a, b) => a[1].localeCompare(b[1]))
 
-export default function InputPanel({ inputs, onChange, results }) {
+export default function InputPanel({ inputs, onChange }) {
   const [incomeDisplay, setIncomeDisplay] = useState(inputs.income.toLocaleString('de-CH'))
   const [ageStr, setAgeStr] = useState(String(inputs.age))
   const [balanceStr, setBalanceStr] = useState(String(inputs.currentBalance || ''))
@@ -156,9 +156,6 @@ export default function InputPanel({ inputs, onChange, results }) {
       <ContributionSlider
         contribution={inputs.contribution}
         onChange={val => set('contribution', val)}
-        annualTaxSaving={results?.annualTaxSaving ?? 0}
-        effectiveCost={results?.effectiveCost ?? inputs.contribution}
-        marginalRate={results?.marginalRate ?? 0}
       />
 
       {/* Strategy */}

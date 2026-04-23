@@ -54,7 +54,7 @@ export default function App() {
 
           {/* Left: inputs */}
           <div className="w-full lg:w-[400px] lg:flex-shrink-0">
-            <InputPanel inputs={inputs} onChange={setInputs} results={results} />
+            <InputPanel inputs={inputs} onChange={setInputs} />
           </div>
 
           {/* Right: results */}
