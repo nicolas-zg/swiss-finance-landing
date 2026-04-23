@@ -69,7 +69,7 @@ export default function ShareCard({ inputs, results, cardRef }) {
 
       {/* Footer */}
       <div style={{ fontSize: '12px', color: 'var(--cream-dim)', borderTop: '1px solid var(--navy-light)', paddingTop: '16px' }}>
-        Calculate yours free at swiss-finance.vercel.app
+        Calculate yours free at swiss-finance-beta.vercel.app
       </div>
     </div>
   )

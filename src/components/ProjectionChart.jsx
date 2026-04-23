@@ -32,7 +32,7 @@ export default function ProjectionChart({ data }) {
   return (
     <div style={{ touchAction: 'pan-y' }}>
     <ResponsiveContainer width="100%" height={280}>
-      <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+      <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 16 }}>
         <defs>
           <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%"  stopColor="#C9A84C" stopOpacity={0.15} />
@@ -46,15 +46,14 @@ export default function ProjectionChart({ data }) {
           tick={{ fill: 'var(--cream-dim)', fontSize: 11 }}
           axisLine={false}
           tickLine={false}
-          label={{ value: 'Age', position: 'insideBottom', offset: -2, fill: 'var(--cream-dim)', fontSize: 11 }}
         />
         <YAxis
           domain={[0, yMax]}
-          tickFormatter={v => v >= 1000 ? `${v/1000}k` : v}
+          tickFormatter={v => v >= 1_000_000 ? `${(v/1_000_000).toFixed(1)}M` : v >= 1_000 ? `${v/1_000}k` : v}
           tick={{ fill: 'var(--cream-dim)', fontSize: 11 }}
           axisLine={false}
           tickLine={false}
-          width={52}
+          width={60}
         />
         <Tooltip content={<CustomTooltip />} />
 

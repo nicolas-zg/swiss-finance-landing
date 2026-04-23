@@ -62,12 +62,12 @@ export default function ResultsPanel({ results, chartData, inputs }) {
           { label: 'Tax saving',   value: formatCHF(results.annualTaxSaving), sub: `${formatPercent(results.marginalRate)} · ${cantonName}`, color: 'var(--gold)', border: 'rgba(212,172,74,.3)' },
           { label: 'In your 3a',  value: formatCHF(inputs.contribution), sub: 'grows in your account', color: 'var(--cream)', border: 'var(--navy-light)' },
         ].map(({ label, value, sub, color, border }) => (
-          <div key={label} className="rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center"
+          <div key={label} className="rounded-2xl p-2 sm:p-4 flex flex-col items-center text-center"
             style={{ background: 'var(--navy-mid)', border: `1px solid ${border}`, boxShadow: '0 2px 12px rgba(0,0,0,.35)' }}>
             <div className="text-xs uppercase tracking-widest mb-2 w-full text-center" style={{ color: 'var(--cream-dim)' }}>
               {label}
             </div>
-            <div className="font-serif leading-none mb-1.5 w-full text-center" style={{ fontSize: 'clamp(16px, 3.5vw, 34px)', color }}>
+            <div className="font-serif leading-none mb-1.5 w-full text-center" style={{ fontSize: 'clamp(14px, 3.5vw, 34px)', color }}>
               {value}
             </div>
             <div className="text-xs leading-snug w-full text-center" style={{ color: 'var(--cream-dim)' }}>
@@ -78,12 +78,12 @@ export default function ResultsPanel({ results, chartData, inputs }) {
       </div>
 
       {/* Equation line */}
-      <div className="flex items-center justify-center gap-2 text-xs" style={{ color: 'var(--cream-dim)' }}>
-        <span>{formatCHF(results.effectiveCost)}</span>
+      <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs" style={{ color: 'var(--cream-dim)' }}>
+        <span className="whitespace-nowrap">{formatCHF(results.effectiveCost)}</span>
         <span>+</span>
-        <span style={{ color: 'var(--gold)' }}>{formatCHF(results.annualTaxSaving)} tax saving</span>
+        <span className="whitespace-nowrap" style={{ color: 'var(--gold)' }}>{formatCHF(results.annualTaxSaving)} tax saving</span>
         <span>=</span>
-        <span style={{ color: 'var(--cream)' }}>{formatCHF(inputs.contribution)} in your 3a</span>
+        <span className="whitespace-nowrap" style={{ color: 'var(--cream)' }}>{formatCHF(inputs.contribution)} in your 3a</span>
       </div>
 
       {/* Projection chart */}
