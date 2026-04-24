@@ -192,7 +192,7 @@ export default function InputPanel({ inputs, onChange }) {
       {/* Income */}
       <div>
         <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--cream-dim)' }}>
-          Gross annual salary
+          Taxable income
         </label>
         <div className="flex items-center rounded-xl overflow-hidden" style={{ border: '1px solid var(--navy-light)' }}>
           <span className="px-4 py-3 text-sm font-medium" style={{ background: 'var(--navy)', color: 'var(--cream-dim)', borderRight: '1px solid var(--navy-light)' }}>
@@ -208,7 +208,7 @@ export default function InputPanel({ inputs, onChange }) {
             style={{ background: 'var(--navy)', color: 'var(--cream)' }}
           />
         </div>
-        <p className="mt-1 text-xs" style={{ color: 'var(--cream-dim)' }}>Used to estimate your marginal tax rate</p>
+        <p className="mt-1 text-xs" style={{ color: 'var(--cream-dim)' }}>After deductions — typically 15–25% below gross salary</p>
       </div>
 
       {/* Age */}
